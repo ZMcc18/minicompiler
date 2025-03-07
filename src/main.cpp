@@ -11,7 +11,7 @@
 #include "ir/ir_builder.h"
 #include "optimizer/optimizer.h"
 #include "codegen/code_generator.h"
-
+#include "semantic/semantic.h"
 using namespace minicompiler;
 
 void printUsage(const char* programName) {
@@ -105,7 +105,18 @@ int main(int argc, char* argv[]) {
         std::cout << "Syntax analysis..." << std::endl;
         Parser parser(tokens);
         std::unique_ptr<Program> ast = parser.parse();
-        
+
+        // 语义分析
+        std::cout << "Semantic analysis..." << std::endl;
+        SemanticAnalyzer semanticAnalyzer;
+        semanticAnalyzer.analyze(ast.get());
+
+        const auto& errors = semanticAnalyzer.getErrors();
+        if (!errors.empty()) {
+            std::cerr << "Compilation failed due to semantic errors." << std::endl;
+            return 1;
+        }
+
         // 生成IR
         std::cout << "Generating IR..." << std::endl;
         IRBuilder irBuilder(inputFile);

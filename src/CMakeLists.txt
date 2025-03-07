@@ -3,7 +3,7 @@ set(SOURCES
     lexer/lexer.cpp
     parser/parser.cpp
     ast/ast.cpp
-    semantic/semantic_analyzer.cpp
+    semantic/semantic.cpp
     ir/ir_builder.cpp
     optimizer/optimizer.cpp
     codegen/code_generator.cpp
